@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/url.php';
 $host = 'localhost';
-$dbname = 'bk_poliklinik';
+$dbname = 'bk_poliklinik_new_fitur';
 $username = 'root';
 $password = '';
 
@@ -91,7 +91,7 @@ function updateJadwalPeriksa($data, $id)
         $hari = mysqli_real_escape_string($conn, $data["hari"]);
         $jam_mulai = mysqli_real_escape_string($conn, $data["jam_mulai"]);
         $jam_selesai = mysqli_real_escape_string($conn, $data["jam_selesai"]);
-        $aktif = mysqli_real_escape_string($conn, $data["aktif"] );
+        $aktif = mysqli_real_escape_string($conn, $data["aktif"]);
 
         if ($aktif == 'Y') {
             // Make jadwal apapun yang sudah aktif menjadi tidak aktif
@@ -137,10 +137,10 @@ function TambahPeriksa($data)
 
 {
     global $conn;
-     // ambil data dari tiap elemen dalam form
-     $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
-     $catatan = htmlspecialchars($data["catatan"]);
-     
+    // ambil data dari tiap elemen dalam form
+    $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
+    $catatan = htmlspecialchars($data["catatan"]);
+
 
     // query insert data
     $query = "INSERT INTO periksa
@@ -154,14 +154,15 @@ function TambahPeriksa($data)
 }
 
 // ini belum selesai mau dilanjutin vander :v
-function TambahDetailPeriksa($data){
+function TambahDetailPeriksa($data)
+{
     global $conn;
-     // ambil data dari tiap elemen dalam form
-     $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
-     $catatan = htmlspecialchars($data["catatan"]);
-     
+    // ambil data dari tiap elemen dalam form
+    $tgl_periksa = htmlspecialchars($data["tgl_periksa"]);
+    $catatan = htmlspecialchars($data["catatan"]);
 
-      // query insert data
+
+    // query insert data
     $query = "INSERT INTO detail_periksa
                 VALUES
                 ('', '$tgl_periksa','$catatan');
@@ -184,7 +185,7 @@ function daftarPoli($data)
         $status = 0;
 
         $query = "INSERT INTO daftar_poli VALUES (NULL, :id_pasien, :id_jadwal, :keluhan, :no_antrian, :status_periksa)";
-        
+
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':id_pasien', $id_pasien);
         $stmt->bindParam(':id_jadwal', $id_jadwal);
@@ -192,7 +193,7 @@ function daftarPoli($data)
         $stmt->bindParam(':no_antrian', $no_antrian);
         $stmt->bindParam(':status_periksa', $status);
         if ($stmt->execute()) {
-            
+
             return $stmt->rowCount(); // Return the number of affected rows
         } else {
             // Handle the error

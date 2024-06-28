@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2024 at 05:10 AM
+-- Generation Time: Jun 21, 2024 at 08:44 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `daftar_poli` (
 --
 
 INSERT INTO `daftar_poli` (`id`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`, `status_periksa`) VALUES
-(6, 110, 1, 'sakit', 1, '0');
+(6, 110, 1, 'sakit', 1, '1');
 
 -- --------------------------------------------------------
 
@@ -54,6 +54,16 @@ CREATE TABLE `detail_periksa` (
   `id_periksa` int(11) NOT NULL,
   `id_obat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `detail_periksa`
+--
+
+INSERT INTO `detail_periksa` (`id`, `id_periksa`, `id_obat`) VALUES
+(16, 7, 8),
+(17, 7, 11),
+(18, 7, 13),
+(7, 8, 8);
 
 -- --------------------------------------------------------
 
@@ -88,15 +98,18 @@ CREATE TABLE `jadwal_periksa` (
   `id_dokter` int(11) NOT NULL,
   `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') DEFAULT NULL,
   `jam_mulai` time DEFAULT NULL,
-  `jam_selesai` time DEFAULT NULL
+  `jam_selesai` time DEFAULT NULL,
+  `aktif` enum('Y','T') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `jadwal_periksa`
 --
 
-INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
-(1, 11, 'Senin', '15:30:55', '15:50:00');
+INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `aktif`) VALUES
+(1, 11, 'Senin', '15:30:00', '15:50:00', 'Y'),
+(2, 11, 'Selasa', '14:11:00', '15:11:00', 'T'),
+(3, 11, 'Rabu', '15:29:00', '16:29:00', 'T');
 
 -- --------------------------------------------------------
 
@@ -116,9 +129,10 @@ CREATE TABLE `obat` (
 --
 
 INSERT INTO `obat` (`id`, `nama_obat`, `kemasan`, `harga`) VALUES
-(1, 0x636f6e746f68, 'plastik', 12),
-(4, 0x70616e61646f6f6c, 'botol', 1),
-(5, 0x70616e61646f6f6c, 'botol', 1);
+(8, 0x6f6261742061626974, 'sachet', 10001),
+(11, 0x70617261636574616d6f6c, 'saset', 20000),
+(12, 0x4f6248, 'saset', 20000),
+(13, 0x6d616167206f626174, 'saset', 20000);
 
 -- --------------------------------------------------------
 
@@ -160,6 +174,14 @@ CREATE TABLE `periksa` (
   `catatan` text DEFAULT NULL,
   `biaya_periksa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `periksa`
+--
+
+INSERT INTO `periksa` (`id`, `id_daftar_poli`, `tgl_periksa`, `catatan`, `biaya_periksa`) VALUES
+(7, 6, '2024-05-28 10:57:00', 'makan kangkung', 200001),
+(8, 6, '2024-05-28 10:57:00', 'makan kangkung', 200001);
 
 -- --------------------------------------------------------
 
@@ -255,7 +277,7 @@ ALTER TABLE `daftar_poli`
 -- AUTO_INCREMENT for table `detail_periksa`
 --
 ALTER TABLE `detail_periksa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `dokter`
@@ -267,13 +289,13 @@ ALTER TABLE `dokter`
 -- AUTO_INCREMENT for table `jadwal_periksa`
 --
 ALTER TABLE `jadwal_periksa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `obat`
 --
 ALTER TABLE `obat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pasien`
@@ -285,7 +307,7 @@ ALTER TABLE `pasien`
 -- AUTO_INCREMENT for table `periksa`
 --
 ALTER TABLE `periksa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `poli`
