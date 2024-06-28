@@ -21,7 +21,7 @@ if ($akses !== 'admin') {
 <?php
 $title = 'Poliklinik | poli';
 // Breadcrumb section
-ob_start();?>
+ob_start(); ?>
 <ol class="breadcrumb float-sm-right">
   <li class="breadcrumb-item"><a href="<?= $base_admin; ?>">Home</a></li>
   <li class="breadcrumb-item active">poli</li>
@@ -31,7 +31,7 @@ $breadcrumb = ob_get_clean();
 ob_flush();
 
 // Title Section
-ob_start();?>
+ob_start(); ?>
 Mengelola Poli
 <?php
 $main_title = ob_get_clean();
@@ -79,6 +79,12 @@ ob_start();
   </div>
 </form>
 
+<div class="row d-flex mt-3 mb-3">
+  <a href="<?= $base_admin . '/poli' ?>">
+    <button class="btn btn-secondary ml-2 rounded-pill" style="width: 3cm;">Reset</button>
+  </a>
+</div>
+
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Mengelola Poli</h3>
@@ -108,9 +114,9 @@ ob_start();
               <a class="btn btn-danger rounded-pill px-3" href="index.php?page=poli&id=<?php echo $data['id'] ?>&aksi=hapus">Hapus</a>
             </td>
           </tr>
-      <?php
-      }
-      ?>
+        <?php
+        }
+        ?>
       </tbody>
     </table>
     <?php
@@ -127,8 +133,10 @@ ob_start();
           $stmt->bindParam(':keterangan', $_POST['keterangan'], PDO::PARAM_STR);
           $stmt->bindParam(':id', $_POST['id'], PDO::PARAM_INT);
           $stmt->execute();
+          header('Location:index.php');
         } catch (PDOException $e) {
           echo "Error: " . $e->getMessage();
+          header('Location:index.php');
         }
       } else {
         try {
@@ -138,8 +146,10 @@ ob_start();
           $stmt->bindParam(':nama_poli', $_POST['nama_poli'], PDO::PARAM_STR);
           $stmt->bindParam(':keterangan', $_POST['keterangan'], PDO::PARAM_STR);
           $stmt->execute();
+          header('Location:index.php');
         } catch (PDOException $e) {
           echo "Error: " . $e->getMessage();
+          header('Location:index.php');
         }
       }
     }
@@ -149,8 +159,10 @@ ob_start();
         $stmt = $pdo->prepare("DELETE FROM poli WHERE id = :id");
         $stmt->bindParam(':id', $_GET['id']);
         $stmt->execute();
+        header('Location:index.php');
       } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
+        header('Location:index.php');
       }
     }
     ?>
